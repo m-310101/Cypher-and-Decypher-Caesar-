@@ -1,17 +1,18 @@
 # The reason for why I have not changed the values of numbers in the decipher
 # is because it is unlikely that the will be ciphered, as if it was then the
 # key would be very easy to find when comparing numbers to things like dates.
+import string
 
 mostCommon = open("mostCommon.txt")
 mostCommon = mostCommon.read().split(" , ")
-others = ["1","2","3","4","5","6","7","8","9","0",\
-          ",",".","<",">",";","'","#",":","@","~",\
-          "[","]","{","}","!",'"',"£","$","%","^",\
-          "&","*","(",")","_","+","-","="," ","?"]
-letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
+temp = string.ascii_lowercase
+letters = list(temp)
+alphaLen = 26
 holding = []
 word = []
 current_word = []
+
 def capitalize (str1: str):
     sentences = str1.split(". ")
     sentences2 = [i[0].capitalize() + i[1:] for i in sentences]
@@ -23,11 +24,11 @@ def main():
     found = False
     global holding,word,current_word
     ret = input("Enter the ciphered message").lower() # Takes user's input
-    for i in range(0,26): # Loops through the number of different letters in alphabet
+    for i in range(0,alphaLen): # Loops through the number of different letters in alphabet
         for count in ret: # Loops through every character
 
             # If the character is not a letter, it will append the character.
-            if count in others:
+            if count not in letters:
                 holding = "".join(holding)
                 current_word.append(holding)
                 current_word.append(count)
@@ -36,11 +37,11 @@ def main():
             if count in letters: # For if the letter is lowercase
                 let = letters.index(count) # Sets variable let to the value of the
                                            # index number of the letter in the array
-                if let + i < 26: # If adding i to it is within the
+                if let + i < alphaLen: # If adding i to it is within the
                     let += i                      # range of the alphabet, then it
                     holding.append(letters[let])    # will do so and append that letter
-                elif let + i > 25: # If the addition returns a value over 25, it takes
-                    let -= 26      # away 26 so it goes back to the beginning
+                elif let + i > alphaLen-1: # If the addition returns a value over 25, it takes
+                    let -= alphaLen      # away 26 so it goes back to the beginning
                     let += i
                     holding.append(letters[let])
 
